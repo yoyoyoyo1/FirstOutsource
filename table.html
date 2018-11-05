@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="./public/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="./public/css/bootstrap_table.css">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="./public/js/jQuery.js"></script>
+    <script src="./public/js/bootstrap.js"></script>
+    <script src="./public/js/bootstrap_table.js"></script>
+    <!-- Latest compiled and minified Locales -->
+    <!-- <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.1/locale/bootstrap-table-zh-CN.min.js"></script> -->
+</head>
+
+<body>
+
+    <div class="modal fade" id="plusProperty" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createFileTitle">增加财物记录</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <div class="form-group">
+                            <label for="fileName" class="col-form-label">名称</label>
+                            <input type="text" autofocus class="form-control" id="name">
+                        </div>
+                        <div class="form-group">
+                            <label for="fileName" class="col-form-label">数量</label>
+                            <input type="text" autofocus class="form-control" id="sum">
+                        </div>
+                        <div class="form-group">
+                            <label for="fileName" class="col-form-label">单价</label>
+                            <input type="text" autofocus class="form-control" id="price">
+                        </div>
+                        <div class="form-group">
+                            <label for="fileName" class="col-form-label">保管人</label>
+                            <input type="text" autofocus class="form-control" id="custodian">
+                        </div>
+                        <div class="form-group">
+                            <label for="fileName" class="col-form-label">备注</label>
+                            <textarea type="text" autofocus class="form-control" id="mark"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="createSure">确定</button>
+                    <button type="button" class="btn btn-default" id="createNo">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <div id="toolbar" class="btn-group">
+            <button id="plus" type="button" class="btn btn-primary">
+                <i class="glyphicon glyphicon-plus"></i>
+                <span>增加</span>
+            </button>
+            <button id="fix" type="button" class="btn btn-success">
+                <i class="glyphicon glyphicon-edit"></i>
+                <span>修改</span>
+            </button>
+            <button id="delete" type="button" class="btn btn-danger">
+                <i class="glyphicon glyphicon-trash"></i>
+                <span>删除</span>
+            </button>
+        </div>
+        <table id="table">
+            <thead>
+                <tr>
+                    <th data-field="state" data-checkbox="true"></th>
+                    <th data-field="name">名称</th>
+                    <th data-field="price">价格</th>
+                    <th data-field="sum">单价</th>
+                    <th data-field="addTime">添置时间</th>
+                    <!-- <th data-field="canceTime">注销时间</th> -->
+                    <th data-field="custodian">保管人</th>
+                    <th data-field="mark">备注</th>
+
+                </tr>
+            </thead>
+        </table>
+    </div>
+    <script>
+        var data = [
+        ];
+
+        function clear_arr_trim(array) {
+            for (var i = 0; i < array.length; i++) {
+                if (array[i] == "" || typeof (array[i]) == "undefined") {
+                    array.splice(i, 1);
+                    i = i - 1;
+                }
+            }
+            return array;
+        }
+
+        function reLoad() {
+            $("#table").bootstrapTable('destroy');
+            $('#table').bootstrapTable({
+                data: data
+            });
+        }
+        $(function () {
+            //删除
+            $("#delete").click(function () {
+
+                var rows = $("#table").bootstrapTable('getSelections');
+                if (rows.length == 0) {
+                    alert("请先选择要删除的记录!");
+                    return;
+                }
+                var truthBeTold = window.confirm("确定要删除该行记录吗?")
+                if (truthBeTold) {
+                    window.alert("删除成功");
+                } else {
+                    return
+                }
+
+                for (let j = 0; j < rows.length; j++) {
+                    for (let i = 0; i < data.length; i++) {
+                        if (data[i] == rows[j]) {
+                            data[i] = null
+                            delete data[i]
+                        }
+                    }
+                }
+
+                clear_arr_trim(data)
+                reLoad();
+            })
+            //增加
+            $("#plus").click(function () {
+                $("#plusProperty").modal()
+            })
+            $("#createSure").click(function () {
+                var d = {
+                    name: $("#name").val(),
+                    price: $("#price").val(),
+                    sum: $("#sum").val(),
+                    custodian: $("#custodian").val(),
+                    mark: $("#mark").val(),
+                    addTime: new Date(),
+                    canceTime:"没有注销"
+                }
+                $("#name").val("")
+                $("#price").val("")
+                $("#sum").val("")
+                $("#custodian").val("")
+                $("#mark").val("")
+                data.push(d)
+                console.log(data)
+                $("#plusProperty").modal('hide')
+                reLoad()
+            })
+            $("#createNo").click(function () {
+                $("#plusProperty").modal('hide')
+            })
+            //修改
+            $("#fix").click(function () {
+                var rows = $("#table").bootstrapTable('getSelections')
+
+                if (rows.length == 0) {
+                    alert("请先选择要修改的记录!")
+                    return;
+                } else if (rows.length > 1) {
+                    alert("你选择了多行无法全部修改，请选择一行进行修改")
+                    return
+                }
+                $("#modal").modal()
+
+            })
+            $('#table').bootstrapTable({
+                data: data
+            });
+        });
+    </script>
+</body>
+
+</html>
