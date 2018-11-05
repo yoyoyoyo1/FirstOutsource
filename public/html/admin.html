@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/bootstrapValidator.min.css">
+
+    <script src="./js/jquery.min.js"></script>
+    <script src="./js/bootstrap.min.js"></script>
+    <script src="./js/bootstrapValidator.js"></script>
+
+    <title>测试</title>
+</head>
+<style>
+</style>
+
+<body>
+
+    <div id="navbar">
+        <navbar></navbar>
+    </div>
+    <div style="margin-top:50px">
+        <div class="row">
+            <div class="col-md-3 col-sm-3">
+
+                <div class="well sidebar-nav">
+                    <ul class="nav nav-list">
+                        <li class="active">
+                            <a href="./index.html">财产管理</a>
+                        </li>
+                        <li>
+                            <a href="./serach.html">查询筛选</a>
+                        </li>
+                        <li>
+                            <a href="./admin.html">用户信息</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-9 col-sm-9">
+                <form class="form-horizontal"  action="edit" method="post">
+                    <div class="container" >
+                        <div class="row" style="padding: 20px 0">
+                            <h3>
+                               修改登陆信息
+                            </h3>
+                        </div>
+                        <div class="row form-group">
+                            <label class="control-label col-lg-1" for="name">原用户名</label>
+                            <div class="col-lg-5 col-md-6">
+                                <input class="form-control" name="olDname" id="name" type="text">
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <label class="control-label col-lg-1">原密码</label>
+                            <div class="col-lg-5 col-md-6">
+                                <input class="form-control" name="olDpassword" id="olDpassword" type="text">
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <label class="control-label col-lg-1">新用户名</label>
+                            <div class="col-lg-5 col-md-6">
+                                <input class="form-control" name="neWname" id="neWname" type="text">
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <label class="control-label col-lg-1">新密码</label>
+                            <div class="col-lg-5 col-md-6">
+                                <input class="form-control" name="neWpasseord" id="neWpassword" type="text">
+                            </div>
+                        </div>
+                        <div class="form-group " style="margin:0 auto 0 25%;width:10px;">
+                            <button type="submit" name="submit" class="btn btn-primary">确认修改</button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+</body>
+<script src="./js/vue.js"></script>
+<script src="./js/navbar.js"></script>
+<script src="./js/admin.js"></script>
+
+</html>

@@ -1,27 +1,89 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+	<script src="./js/jquery.min.js"></script>
+	<script src="./js/bootstrap.min.js"></script>
+    <title>测试</title>
 </head>
+<style>
+</style>
 
 <body>
-    <div id="app">
-        <p>{{ message }}</p>
+    <template id="architecture_temp">
+        <div>
+            </br>
+            <div>
+                <nav aria-label="Page navigation col-md-3 col-sm-3" class=" pull-left">
+                    <ol class="breadcrumb">
+                        <li class="active">建筑物</li>
+                    </ol>
+                </nav>
+                <div class="dropdown col-md-3 col-sm-3">
+                    <button type="button" class="btn dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown">建筑类
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                        <li role="presentation">
+                            <a role="menuitem" tabindex="-1" href="#">食堂</a>
+                        </li>
+                        <li role="presentation">
+                            <a role="menuitem" tabindex="-1" href="#">教学楼</a>
+                        </li>
+                        <li role="presentation">
+                            <a role="menuitem" tabindex="-1" href="#">宿舍</a>
+                        </li>
+                        <li role="presentation">
+                            <a role="menuitem" tabindex="-1" href="#">图书馆</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-3 col-sm-3">
+                    <a href="#" class="tooltip-test" data-toggle="tooltip" title="默认的 Tooltip">提示当前位置</a>.
+                </div>
+
+
+            </div>
+        </div>
+    </template>
+    <div id="navbar">
+        <navbar></navbar>
     </div>
-    <script src="./js/vue.js">
-    </script>
-    <script>
-        var vm = new Vue({
-            el: '#app',
-            data: {
-                message:"hahhahahahah"
-            }
-        })
-    </script>
+    <div style="margin-top:50px">
+        <div class="row">
+            <div class="col-md-3 col-sm-3">
+
+                <div class="well sidebar-nav">
+                    <ul class="nav nav-list">
+                        <li class="active">
+                            <a href="./index.html">财产管理</a>
+                        </li>
+                        <li>
+                            <a href="./serach.html">物品筛选</a>
+                        </li>
+                        <li>
+                            <a href="./admin.html">用户信息</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-9 col-sm-9">
+                <div id="architecture">
+                    <architecture></architecture>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
 </body>
+<script src="./js/vue.js"></script>
+<script src="./js/navbar.js"></script>
+<script src="./js/architecture.js"></script>
+
+<script>
+</script>
 
 </html>
