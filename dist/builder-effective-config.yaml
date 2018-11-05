@@ -1,0 +1,13 @@
+directories:
+  output: dist
+  buildResources: build
+appId: com.leon.HelloWorld02
+copyright: LEON
+productName: HelloWorld02
+dmg:
+  window:
+    x: 100
+    'y': 100
+    width: 500
+    height: 300
+electronVersion: 3.0.6
