@@ -4,8 +4,11 @@
 <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="../css/bootstrap.min.css">
-	<script src="./js/jquery.min.js"></script>
-	<script src="./js/bootstrap.min.js"></script>
+    <script src="../js/jQuery.js"></script>
+    <script src="../js/bootstrap.js"></script>
+    <script src="../js/bootstrapValidator.js"></script>
+    <script src="../js/bootstrap_table.js"></script>
+    <script src="../js/bootstrap.select.js"></script>
     <title>测试</title>
 </head>
 <style>
@@ -13,40 +16,7 @@
 
 <body>
     <template id="architecture_temp">
-        <div>
-            </br>
-            <div>
-                <nav aria-label="Page navigation col-md-3 col-sm-3" class=" pull-left">
-                    <ol class="breadcrumb">
-                        <li class="active">建筑物</li>
-                    </ol>
-                </nav>
-                <div class="dropdown col-md-3 col-sm-3">
-                    <button type="button" class="btn dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown">建筑类
-                        <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-                        <li role="presentation">
-                            <a role="menuitem" tabindex="-1" href="#">食堂</a>
-                        </li>
-                        <li role="presentation">
-                            <a role="menuitem" tabindex="-1" href="#">教学楼</a>
-                        </li>
-                        <li role="presentation">
-                            <a role="menuitem" tabindex="-1" href="#">宿舍</a>
-                        </li>
-                        <li role="presentation">
-                            <a role="menuitem" tabindex="-1" href="#">图书馆</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-md-3 col-sm-3">
-                    <a href="#" class="tooltip-test" data-toggle="tooltip" title="默认的 Tooltip">提示当前位置</a>.
-                </div>
 
-
-            </div>
-        </div>
     </template>
     <div id="navbar">
         <navbar></navbar>
@@ -70,20 +40,260 @@
                 </div>
             </div>
             <div class="col-md-9 col-sm-9">
-                <div id="architecture">
+                <!-- <div id="architecture">
                     <architecture></architecture>
+                </div> -->
+                <div>
+                    </br>
+                    <div>
+                        <nav aria-label="Page navigation col-md-3 col-sm-3" class=" pull-left">
+                            <ol class="breadcrumb">
+                                <li class="active">建筑物</li>
+                            </ol>
+                        </nav>
+                        <div class="dropdown col-md-2 col-sm-2">
+                            <!-- <button type="button" class="btn dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown">建筑类
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                                <li role="presentation">
+                                    <a role="menuitem" tabindex="-1" href="#">食堂</a>
+                                </li>
+                                <li role="presentation">
+                                    <a role="menuitem" tabindex="-1" href="#">教学楼</a>
+                                </li>
+                                <li role="presentation">
+                                    <a role="menuitem" tabindex="-1" href="#">宿舍</a>
+                                </li>
+                                <li role="presentation">
+                                    <a role="menuitem" tabindex="-1" href="#">图书馆</a>
+                                </li>
+                            </ul> -->
+                            <select class="form-control">
+                                <option>全部建筑</option>
+                                <option>食堂</option>
+                                <option>教学楼</option>
+                                <option>宿舍</option>
+                                <option>图书馆</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3 col-sm-3">
+                            <a href="#" class="tooltip-test" data-toggle="tooltip" title="默认的 Tooltip">提示当前位置</a>.
+                        </div>
+
+
+                    </div>
+                    </br>
+                    </br>
+                    </br>
+
                 </div>
+                <div class="modal fade" id="plusProperty" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="createFileTitle">增加建筑物</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div>
+                                    <div class="form-group">
+                                        <label for="fileName" class="col-form-label">建筑类别</label>
+                                        <!-- <input type="text" autofocus class="form-control" id="type"> -->
+                                        <select class="form-control" id="type">
+                                            <option>食堂</option>
+                                            <option>教学楼</option>
+                                            <option>宿舍</option>
+                                            <option>图书馆</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="fileName" class="col-form-label">建筑序号</label>
+                                        <input type="text" autofocus class="form-control" id="id">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="fileName" class="col-form-label">备注</label>
+                                        <textarea type="text" autofocus class="form-control" id="mark" style="word-break:break-all; word-wrap:break-all;"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" id="createSure">确定</button>
+                                <button type="button" class="btn btn-default" id="createNo">取消</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade" id="editProperty" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="createFileTitle">修改建筑物</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div>
+                                    <div class="form-group">
+                                        <label for="fileName" class="col-form-label">建筑类别</label>
+                                        <!-- <input type="text" autofocus class="form-control" id="type"> -->
+                                        <select class="form-control" id="typeEdit" data-live-search="true">
+                                            <option>食堂</option>
+                                            <option>教学楼</option>
+                                            <option>宿舍</option>
+                                            <option>图书馆</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="fileName" class="col-form-label">建筑序号</label>
+                                        <input type="text" autofocus class="form-control" id="idEdit">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="fileName" class="col-form-label">备注</label>
+                                        <textarea type="text" autofocus class="form-control" id="markEdit" style="word-break:break-all; word-wrap:break-all;"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" id="editSure">确定</button>
+                                <button type="button" class="btn btn-default" id="editNo">取消</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div id="toolbar" class="btn-group">
+                        <button id="plus" type="button" class="btn btn-primary">
+                            <i class="glyphicon glyphicon-plus"></i>
+                            <span>增加</span>
+                        </button>
+                        <button id="fix" type="button" class="btn btn-success">
+                            <i class="glyphicon glyphicon-edit"></i>
+                            <span>修改</span>
+                        </button>
+                        <button id="delete" type="button" class="btn btn-danger">
+                            <i class="glyphicon glyphicon-trash"></i>
+                            <span>删除</span>
+                        </button>
+                    </div>
+                    <table id="table" style="table-layout: fixed">
+                        <thead>
+                            <tr>
+                                <th data-field="state" data-checkbox="true"></th>
+                                <th data-field="type">建筑类别</th>
+                                <th data-field="id">建筑序号</th>
+                                <th data-field="mark" data-switchable="false">备注</th>
+                                <th data-field="button">管理</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+
 
             </div>
         </div>
     </div>
 
 </body>
-<script src="./js/vue.js"></script>
+<script src="../js/vue.js"></script>
 <script src="./js/navbar.js"></script>
 <script src="./js/architecture.js"></script>
-
 <script>
+    var data = [
+    ];//表的内容数组
+
+    function clear_arr_trim(array) {
+        for (var i = 0; i < array.length; i++) {
+            if (array[i] == "" || typeof (array[i]) == "undefined") {
+                array.splice(i, 1);
+                i = i - 1;
+            }
+        }
+        return array;
+    }
+
+    function reLoad() {
+        $("#table").bootstrapTable('destroy');
+        $('#table').bootstrapTable({
+            data: data
+        });
+    }//刷新
+    $(function () {
+        //删除
+        $("#delete").click(function () {
+
+            var rows = $("#table").bootstrapTable('getSelections');
+            if (rows.length == 0) {
+                alert("请先选择要删除的记录!");
+                return;
+            }
+            var truthBeTold = window.confirm("确定要删除该行记录吗?")
+            if (truthBeTold) {
+                window.alert("删除成功");
+            } else {
+                return
+            }
+
+            for (let j = 0; j < rows.length; j++) {
+                for (let i = 0; i < data.length; i++) {
+                    if (data[i] == rows[j]) {
+                        data[i] = null
+                        delete data[i]
+                    }
+                }
+            }
+
+            clear_arr_trim(data)
+            reLoad();
+        })
+        //增加
+        $("#plus").click(function () {
+            $("#plusProperty").modal()
+        })
+
+        $("#createSure").click(function () {
+            var d = {
+                type: $("#type").val(),
+                id: $("#id").val(),
+                mark: $("#mark").val(),
+                button: `<button type="button" class="btn btn-primary" id="createSure">查看</button>`
+            }
+            $("#tpye").val("")
+            $("#id").val("")
+            $("#mark").val("")
+            data.push(d)
+            console.log(data)
+            $("#plusProperty").modal('hide')
+            reLoad()
+        })
+        $("#createNo").click(function () {
+            $("#plusProperty").modal('hide')
+        })
+        //修改
+        $("#fix").click(function () {
+            var rows = $("#table").bootstrapTable('getSelections')
+            if (rows.length == 0) {
+                alert("请先选择要修改的记录!")
+                return;
+            } else if (rows.length > 1) {
+                alert("你选择了多行无法全部修改，请选择一行进行修改")
+                return
+            }
+            console.log(rows[0].type)
+           
+            $("#typeEdit").selectpicker('val',rows[0].type)
+            $("#idEdit").val(rows[0].id)
+            $("#markEdit").val(rows[0].mark)
+            $("#editProperty").modal('show')
+
+        })
+        $('#table').bootstrapTable({
+            data: data
+        });
+    });
 </script>
 
 </html>
