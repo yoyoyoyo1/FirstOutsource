@@ -1,7 +1,7 @@
 const {app, BrowserWindow} = require('electron')
 const ipc = require('electron').ipcMain
 const fs = require('fs')
-
+const db = require('./db')
 let mainWindow
 
 
