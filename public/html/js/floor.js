@@ -51,15 +51,14 @@ $(function () {
     })
 
     $("#createSure").click(function () {
-      console.log(22)
         var d = {
-            type: $("#type").val(),
-            id: $("#id").val(),
+           
+            index: $("#id").val(),
             mark: $("#mark").val(),
-          
+            button: `<button type="button" class="btn btn-primary" id="jion">进入</button>`
         }
-        $("#tpye").val("")
-        $("#id").val("")
+        
+        $("#index").val("")
         $("#mark").val("")
         data.push(d)
         console.log(data)
@@ -67,8 +66,8 @@ $(function () {
         reLoad()
     })
     $("#createNo").click(function () {
-        $("#tpye").val("")
-        $("#id").val("")
+        
+        $("#index").val("")
         $("#mark").val("")
         $("#plusProperty").modal('hide')
     })
@@ -85,8 +84,8 @@ $(function () {
         }
         console.log(rows[0].type)
        
-        $("#typeEdit").val((rows[0].type))
-        $("#idEdit").val(rows[0].id)
+       
+        $("#index").val(rows[0].index)
         $("#markEdit").val(rows[0].mark)
         $("#editProperty").modal('show')
 
@@ -95,9 +94,10 @@ $(function () {
        
         var rows = $("#table").bootstrapTable('getSelections');
         var d = {
-            type: $("#typeEdit").val(),
-            id: $("#idEdit").val(),
-            mark: $("#markEdit").val()
+           
+            index: $("#indexEdit").val(),
+            mark: $("#markEdit").val(),
+            button: `<button type="button" class="btn btn-primary" id="">进入</button>`
         }
         for (let j = 0; j < rows.length; j++) {
             for (let i = 0; i < data.length; i++) {
@@ -107,37 +107,21 @@ $(function () {
                 }
             }
         }
-        $("#typeEdit").val("")
-        $("#idEdit").val("")
+      
+        $("#indexEdit").val("")
         $("#markEdit").val("")
         $("#editProperty").modal('hide')
         reLoad()
     })
     $("#editNo").click(function () {
-        $("#typeEdit").val("")
-        $("#idEdit").val("")
+        
+        $("#index").val("")
         $("#markEdit").val("")
         $("#editProperty").modal('hide')
     })
+    //进入具体楼层
     
     $('#table').bootstrapTable({
         data: data
     });
-    
 });
-function addEvent(value,row,index){
-  return [
-    '<button type="button" class="RoleOfedit btn btn-primary" >进入</button>'
-  ].join("")
-}
-const ipc = require('electron').ipcRenderer
-window.operateEvents = {
-  
-  'click .RoleOfedit' : function (){
-    //console.log("22222")
-    //open('/public/html/modal.html')
-    ipc.send('floor',{})
-    ///window.location.href = '/public/html/modal.html'
-   
-}
-};

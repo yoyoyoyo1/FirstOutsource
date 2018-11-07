@@ -15,10 +15,7 @@
 </style>
 
 <body>
-    <template id="architecture_temp">
-
-    </template>
-    <div id="navbar">
+    <!-- <div id="navbar">
         <navbar></navbar>
     </div>
     <div style="margin-top:50px">
@@ -39,25 +36,22 @@
                     </ul>
                 </div>
             </div>
-            <div class="col-md-9 col-sm-9">
+            <div class="col-md-9 col-sm-9"> -->
                 <!-- <div id="architecture">
                     <architecture></architecture>
                 </div> -->
-                <div>
+                <!-- <div>
                     </br>
                     <div>
                         <nav aria-label="Page navigation col-md-3 col-sm-3" class=" pull-left">
                             <ol class="breadcrumb">
-                                <li class="active">建筑物</li>
+                                <li>建筑物</li>
+                                <li class="active">楼层</li>
                             </ol>
                         </nav>
                         <div class="dropdown col-md-2 col-sm-2">
-                            <select class="form-control">
-                                <option>全部建筑</option>
-                                <option>食堂</option>
-                                <option>教学楼</option>
-                                <option>宿舍</option>
-                                <option>图书馆</option>
+                            <select class="form-control" id="floors">
+                                <option>全部楼层</option>
                             </select>
                         </div>
                         <div class="col-md-3 col-sm-3">
@@ -75,26 +69,17 @@
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="createFileTitle">增加建筑物</h5>
+                                <h5 class="modal-title" id="createFileTitle">增加楼层</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
                             <div class="modal-body">
                                 <div>
+                                    
                                     <div class="form-group">
-                                        <label for="fileName" class="col-form-label">建筑类别</label>
-                                        <!-- <input type="text" autofocus class="form-control" id="type"> -->
-                                        <select class="form-control" id="type">
-                                            <option>食堂</option>
-                                            <option>教学楼</option>
-                                            <option>宿舍</option>
-                                            <option>图书馆</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="fileName" class="col-form-label">建筑序号</label>
-                                        <input type="text" autofocus class="form-control" id="id">
+                                        <label for="fileName" class="col-form-label">楼层序号</label>
+                                        <input type="text" autofocus class="form-control" id="index">
                                     </div>
                                     <div class="form-group">
                                         <label for="fileName" class="col-form-label">备注</label>
@@ -113,7 +98,7 @@
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="createFileTitle">修改建筑物</h5>
+                                <h5 class="modal-title" id="createFileTitle">修改楼层</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
@@ -121,18 +106,8 @@
                             <div class="modal-body">
                                 <div>
                                     <div class="form-group">
-                                        <label for="fileName" class="col-form-label">建筑类别</label>
-                                        <!-- <input type="text" autofocus class="form-control" id="type"> -->
-                                        <select class="form-control" id="typeEdit">
-                                            <option>食堂</option>
-                                            <option>教学楼</option>
-                                            <option>宿舍</option>
-                                            <option>图书馆</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="fileName" class="col-form-label">建筑序号</label>
-                                        <input type="text" autofocus class="form-control" id="idEdit">
+                                        <label for="fileName" class="col-form-label">楼层序号</label>
+                                        <input type="text" autofocus class="form-control" id="indexEdit">
                                     </div>
                                     <div class="form-group">
                                         <label for="fileName" class="col-form-label">备注</label>
@@ -165,11 +140,10 @@
                     <table id="table" style="table-layout: fixed">
                         <thead>
                             <tr>
-                                <th data-field="state" data-checkbox="true"></th>
-                                <th data-field="type">建筑类别</th>
-                                <th data-field="id">建筑序号</th>
+                                <th data-field="state" data-checkbox="true"></th>                              
+                                <th data-field="index">楼层序号</th>
                                 <th data-field="mark" data-switchable="false">备注</th>
-                                <th data-field="button" data-events="operateEvents" data-formatter="addEvent">管理</th>
+                                <th data-field="button">管理</th>
                             </tr>
                         </thead>
                     </table>
@@ -178,10 +152,11 @@
 
             </div>
         </div>
-    </div>
-
+    </div> -->
+vfdsbv
 </body>
 <script src="../js/vue.js"></script>
 <script src="./js/navbar.js"></script>
-<script src="./js/architecture.js"></script>
+<script src="./js/floor.js"></script>
+
 </html>

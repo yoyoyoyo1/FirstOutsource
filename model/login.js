@@ -19,4 +19,8 @@ module.exports = (mainWindow) => {
             mainWindow.loadFile('public/html/index.html')
         })
     })
+    ipc.on('floor',function(e){
+        console.log(1)
+        mainWindow.loadFile('public/html/modal.html')
+    })
 }
