@@ -15,7 +15,7 @@
 </style>
 
 <body>
-    <!-- <div id="navbar">
+    <div id="navbar">
         <navbar></navbar>
     </div>
     <div style="margin-top:50px">
@@ -36,16 +36,16 @@
                     </ul>
                 </div>
             </div>
-            <div class="col-md-9 col-sm-9"> -->
-                <!-- <div id="architecture">
+            <div class="col-md-9 col-sm-9">
+                <div id="architecture">
                     <architecture></architecture>
-                </div> -->
-                <!-- <div>
+                </div>
+                <div>
                     </br>
                     <div>
                         <nav aria-label="Page navigation col-md-3 col-sm-3" class=" pull-left">
                             <ol class="breadcrumb">
-                                <li>建筑物</li>
+                                <li id="architecture"><a href="./index.html">建筑物</a></li>
                                 <li class="active">楼层</li>
                             </ol>
                         </nav>
@@ -54,10 +54,10 @@
                                 <option>全部楼层</option>
                             </select>
                         </div>
-                        <div class="col-md-3 col-sm-3">
-                            <a href="#" class="tooltip-test" data-toggle="tooltip" title="默认的 Tooltip">提示当前位置</a>.
+                        <div  style="float:right">
+                            <a href="#" class="tooltip-test" data-toggle="tooltip" title="默认的 Tooltip">提示当前位置</a>&nbsp;&nbsp;&nbsp;
                         </div>
-
+                       
 
                     </div>
                     </br>
@@ -106,7 +106,7 @@
                             <div class="modal-body">
                                 <div>
                                     <div class="form-group">
-                                        <label for="fileName" class="col-form-label">楼层序号</label>
+                                        <label for="fileName" class="col-form-label">楼层编号</label>
                                         <input type="text" autofocus class="form-control" id="indexEdit">
                                     </div>
                                     <div class="form-group">
@@ -141,9 +141,9 @@
                         <thead>
                             <tr>
                                 <th data-field="state" data-checkbox="true"></th>                              
-                                <th data-field="index">楼层序号</th>
+                                <th data-field="index">楼层编号</th>
                                 <th data-field="mark" data-switchable="false">备注</th>
-                                <th data-field="button">管理</th>
+                                <th data-field="button" data-events="operateEvents" data-formatter="addEvent">操作</th>
                             </tr>
                         </thead>
                     </table>
@@ -152,8 +152,8 @@
 
             </div>
         </div>
-    </div> -->
-vfdsbv
+    </div>
+
 </body>
 <script src="../js/vue.js"></script>
 <script src="./js/navbar.js"></script>

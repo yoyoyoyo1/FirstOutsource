@@ -53,9 +53,8 @@ $(function () {
     $("#createSure").click(function () {
         var d = {
            
-            index: $("#id").val(),
+            index: $("#index").val(),
             mark: $("#mark").val(),
-            button: `<button type="button" class="btn btn-primary" id="jion">进入</button>`
         }
         
         $("#index").val("")
@@ -82,10 +81,10 @@ $(function () {
             alert("你选择了多行无法全部修改，请选择一行进行修改")
             return
         }
-        console.log(rows[0].type)
        
        
-        $("#index").val(rows[0].index)
+       console.log(rows[0].index)
+        $("#indexEdit").val(rows[0].index)
         $("#markEdit").val(rows[0].mark)
         $("#editProperty").modal('show')
 
@@ -97,7 +96,6 @@ $(function () {
            
             index: $("#indexEdit").val(),
             mark: $("#markEdit").val(),
-            button: `<button type="button" class="btn btn-primary" id="">进入</button>`
         }
         for (let j = 0; j < rows.length; j++) {
             for (let i = 0; i < data.length; i++) {
@@ -119,9 +117,25 @@ $(function () {
         $("#markEdit").val("")
         $("#editProperty").modal('hide')
     })
-    //进入具体楼层
+   
     
     $('#table').bootstrapTable({
         data: data
-    });
+    });    
 });
+//管理 //进入具体楼层
+function addEvent(value,row,index){
+    return [
+      '<button type="button" class="RoleOfedit btn btn-primary" >进入</button>'
+    ].join("")
+  }
+  const ipc = require('electron').ipcRenderer
+  window.operateEvents = {
+    
+    'click .RoleOfedit' : function (){
+ 
+      ipc.send('room',{})
+
+     
+  }
+  };

@@ -1,12 +1,6 @@
-
-const ipc = require('electron').ipcRenderer
 var data = [
 ];//表的内容数组
-console.log(window.location.href)
-window.onload = function(){
-   ipc.send("")
-}
-window.sessionStorage.where = {}
+let index = 0
 function clear_arr_trim(array) {
     for (var i = 0; i < array.length; i++) {
         if (array[i] == "" || typeof (array[i]) == "undefined") {
@@ -18,7 +12,6 @@ function clear_arr_trim(array) {
 }
 
 function reLoad() {
-    
     $("#table").bootstrapTable('destroy');
     $('#table').bootstrapTable({
         data: data
@@ -58,15 +51,16 @@ $(function () {
     })
 
     $("#createSure").click(function () {
-      console.log(22)
         var d = {
-            type: $("#type").val(),
+           
             index: $("#index").val(),
+            type: $("#type").val(),
             mark: $("#mark").val(),
-          
+            
         }
-        $("#tpye").val("")
+        
         $("#index").val("")
+        $("type").val("")
         $("#mark").val("")
         data.push(d)
         console.log(data)
@@ -74,7 +68,7 @@ $(function () {
         reLoad()
     })
     $("#createNo").click(function () {
-        $("#tpye").val("")
+        
         $("#index").val("")
         $("#mark").val("")
         $("#plusProperty").modal('hide')
@@ -90,10 +84,11 @@ $(function () {
             alert("你选择了多行无法全部修改，请选择一行进行修改")
             return
         }
-        console.log(rows[0].type)
        
-        $("#typeEdit").val((rows[0].type))
+       
+       console.log(rows[0].index)
         $("#indexEdit").val(rows[0].index)
+        $("#typeEdit").val(rows[0].type)
         $("#markEdit").val(rows[0].mark)
         $("#editProperty").modal('show')
 
@@ -102,9 +97,9 @@ $(function () {
        
         var rows = $("#table").bootstrapTable('getSelections');
         var d = {
-            type: $("#typeEdit").val(),
             index: $("#indexEdit").val(),
-            mark: $("#markEdit").val()
+            type: $("#typeEdit").val(),
+            mark: $("#markEdit").val(),
         }
         for (let j = 0; j < rows.length; j++) {
             for (let i = 0; i < data.length; i++) {
@@ -114,38 +109,39 @@ $(function () {
                 }
             }
         }
-        $("#typeEdit").val("")
+      
         $("#indexEdit").val("")
+        $("#typeEdit").val("")      
         $("#markEdit").val("")
         $("#editProperty").modal('hide')
         reLoad()
     })
     $("#editNo").click(function () {
-        $("#typeEdit").val("")
-        $("#indexEdit").val("")
+        
+        $("#index").val("")
+        $("#typeEdit").val("")        
         $("#markEdit").val("")
         $("#editProperty").modal('hide')
     })
+    //进入具体楼层
     
     $('#table').bootstrapTable({
         data: data
     });
-    
 });
+
 function addEvent(value,row,index){
-  return [
-    '<button type="button" class="RoleOfedit btn btn-primary" >进入</button>'
-  ].join("")
-}
-
-window.operateEvents = {
-  
-  'click .RoleOfedit' : function (e,value,row,index){
-     console.log(row)
-    //window.sessionStorage.where = {}
+    return [
+      '<button type="button" class="RoleOfedit btn btn-primary" >进入</button>'
+    ].join("")
+  }
+  const ipc = require('electron').ipcRenderer
+  window.operateEvents = {
     
-    ipc.send('floor',{})
+    'click .RoleOfedit' : function (){
+ 
+      ipc.send('goods',{})
 
-   
-}
-};
+     
+  }
+  };

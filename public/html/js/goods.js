@@ -1,12 +1,6 @@
-
-const ipc = require('electron').ipcRenderer
 var data = [
 ];//表的内容数组
-console.log(window.location.href)
-window.onload = function(){
-   ipc.send("")
-}
-window.sessionStorage.where = {}
+let index = 0
 function clear_arr_trim(array) {
     for (var i = 0; i < array.length; i++) {
         if (array[i] == "" || typeof (array[i]) == "undefined") {
@@ -18,7 +12,6 @@ function clear_arr_trim(array) {
 }
 
 function reLoad() {
-    
     $("#table").bootstrapTable('destroy');
     $('#table').bootstrapTable({
         data: data
@@ -58,15 +51,28 @@ $(function () {
     })
 
     $("#createSure").click(function () {
-      console.log(22)
+        let sum = parseInt($("#price").val()) * parseInt($("#num").val())
         var d = {
-            type: $("#type").val(),
+
             index: $("#index").val(),
+            name: $("#name").val(),
+            num: $("#num").val(),
+            price: $("#price").val(),
+            total: sum,
+            createTime: $("#createTime").val(),
+            deleteTime: $("#deleteTime").val(),
+            admin: $("#admin").val(),
             mark: $("#mark").val(),
-          
+
         }
-        $("#tpye").val("")
+
         $("#index").val("")
+        $("#name").val("")
+        $("#num").val("")
+        $("#price").val("")
+        $("#createTime").val("")
+        $("#deleteTime").val("")
+        $("#admin").val("")
         $("#mark").val("")
         data.push(d)
         console.log(data)
@@ -74,8 +80,14 @@ $(function () {
         reLoad()
     })
     $("#createNo").click(function () {
-        $("#tpye").val("")
+
         $("#index").val("")
+        $("#name").val("")
+        $("#num").val("")
+        $("#price").val("")
+        $("#createTime").val("")
+        $("#deleteTime").val("")
+        $("#admin").val("")
         $("#mark").val("")
         $("#plusProperty").modal('hide')
     })
@@ -90,62 +102,72 @@ $(function () {
             alert("你选择了多行无法全部修改，请选择一行进行修改")
             return
         }
-        console.log(rows[0].type)
-       
-        $("#typeEdit").val((rows[0].type))
+
+
+        console.log(rows[0].index)
         $("#indexEdit").val(rows[0].index)
+        $("#nameEdit").val(rows[0].name)
+        $("#numEdit").val(rows[0].num)
+        $("#priceEdit").val(rows[0].price)
+        $("#createTimeEdit").val(rows[0].createTime)
+        $("#deleteTimeEdit").val(rows[0].deleteTime)
+        $("#adminEdit").val(rows[0].admin)
         $("#markEdit").val(rows[0].mark)
         $("#editProperty").modal('show')
 
     })
     $("#editSure").click(function () {
-       
+
         var rows = $("#table").bootstrapTable('getSelections');
         var d = {
-            type: $("#typeEdit").val(),
             index: $("#indexEdit").val(),
-            mark: $("#markEdit").val()
+            name: $("#nameEdit").val(),
+            num: $("#numEdit").val(),
+            price: $("#priceEdit").val(),
+            total: num * price,
+            createTime: $("#createTimeEdit").val(),
+            deleteTime: $("#deleteTimeEdit").val(),
+            admin: $("#adminEdit").val(),
+            mark: $("#markEdit").val(),
         }
         for (let j = 0; j < rows.length; j++) {
             for (let i = 0; i < data.length; i++) {
                 if (data[i] == rows[j]) {
                     data[i] = d
-                    
+
                 }
             }
         }
-        $("#typeEdit").val("")
+
         $("#indexEdit").val("")
+        $("#nameEdit").val("")
+        $("#numEdit").val("")
+        $("#priceEdit").val("")
+        $("#createTimeEdit").val("")
+        $("#deleteTimeEdit").val("")
+        $("#adminEdit").val("")
         $("#markEdit").val("")
         $("#editProperty").modal('hide')
         reLoad()
     })
     $("#editNo").click(function () {
-        $("#typeEdit").val("")
+
         $("#indexEdit").val("")
+        $("#nameEdit").val("")
+        $("#sumEdit").val("")
+        $("#priceEdiit").val("")
+        $("#createTimeEdit").val("")
+        $("#deleteTimeEdit").val("")
+        $("#adminEdit").val("")
         $("#markEdit").val("")
         $("#editProperty").modal('hide')
     })
-    
+
     $('#table').bootstrapTable({
         data: data
     });
-    
+    const ipc = require('electron').ipcRenderer
+
+
+
 });
-function addEvent(value,row,index){
-  return [
-    '<button type="button" class="RoleOfedit btn btn-primary" >进入</button>'
-  ].join("")
-}
-
-window.operateEvents = {
-  
-  'click .RoleOfedit' : function (e,value,row,index){
-     console.log(row)
-    //window.sessionStorage.where = {}
-    
-    ipc.send('floor',{})
-
-   
-}
-};

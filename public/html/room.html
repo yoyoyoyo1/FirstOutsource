@@ -15,9 +15,6 @@
 </style>
 
 <body>
-    <template id="architecture_temp">
-
-    </template>
     <div id="navbar">
         <navbar></navbar>
     </div>
@@ -40,26 +37,32 @@
                 </div>
             </div>
             <div class="col-md-9 col-sm-9">
-                <!-- <div id="architecture">
+                <div id="architecture">
                     <architecture></architecture>
-                </div> -->
+                </div>
                 <div>
                     </br>
                     <div>
                         <nav aria-label="Page navigation col-md-3 col-sm-3" class=" pull-left">
                             <ol class="breadcrumb">
-                                <li class="active">建筑物</li>
+                                <li>
+                                    <a href="./index.html">建筑物</a>
+                                </li>
+                                <li>
+                                    <a href="./floor.html">楼层</a>
+                                </li>
+                                <li class="active">房间</li>
                             </ol>
                         </nav>
-                        <div class="dropdown col-md-2 col-sm-2">
-                            <select class="form-control">
-                                <option>全部建筑</option>
-                                <option>食堂</option>
-                                <option>教学楼</option>
-                                <option>宿舍</option>
-                                <option>图书馆</option>
+                        <!-- <div class="dropdown col-md-2 col-sm-2">
+                            <select class="form-control" id="floors">
+                                <option>全部楼层</option>
                             </select>
+                        </div> -->
+                        <div style="float:right">
+                            <a href="#" class="tooltip-test" data-toggle="tooltip" title="默认的 Tooltip">提示当前位置</a>&nbsp;&nbsp;&nbsp;
                         </div>
+
 
                     </div>
                     </br>
@@ -71,7 +74,7 @@
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="createFileTitle">增加建筑物</h5>
+                                <h5 class="modal-title" id="createFileTitle">增加房间</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
@@ -79,18 +82,12 @@
                             <div class="modal-body">
                                 <div>
                                     <div class="form-group">
-                                        <label for="fileName" class="col-form-label">建筑类别</label>
-                                        <!-- <input type="text" autofocus class="form-control" id="type"> -->
-                                        <select class="form-control" id="type">
-                                            <option>食堂</option>
-                                            <option>教学楼</option>
-                                            <option>宿舍</option>
-                                            <option>图书馆</option>
-                                        </select>
+                                        <label for="fileName" class="col-form-label">房间编号</label>
+                                        <input type="text" autofocus class="form-control" id="index">
                                     </div>
                                     <div class="form-group">
-                                        <label for="fileName" class="col-form-label">建筑编号</label>
-                                        <input type="text" autofocus class="form-control" id="index">
+                                        <label for="fileName" class="col-form-label">房间类别</label>
+                                        <input type="text" autofocus class="form-control" id="type">
                                     </div>
                                     <div class="form-group">
                                         <label for="fileName" class="col-form-label">备注</label>
@@ -109,7 +106,8 @@
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="createFileTitle">修改建筑物</h5>
+                                <h5 class="modal-title" id="createFileTitle">修改物品
+                                </h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
@@ -117,19 +115,14 @@
                             <div class="modal-body">
                                 <div>
                                     <div class="form-group">
-                                        <label for="fileName" class="col-form-label">建筑类别</label>
-                                        <!-- <input type="text" autofocus class="form-control" id="type"> -->
-                                        <select class="form-control" id="typeEdit">
-                                            <option>食堂</option>
-                                            <option>教学楼</option>
-                                            <option>宿舍</option>
-                                            <option>图书馆</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="fileName" class="col-form-label">建筑编号</label>
+                                        <label for="fileName" class="col-form-label">房间编号</label>
                                         <input type="text" autofocus class="form-control" id="indexEdit">
                                     </div>
+                                    <div class="form-group">
+                                        <label for="fileName" class="col-form-label">房间类别</label>
+                                        <input type="text" autofocus class="form-control" id="typeEdit">
+                                    </div>
+                                   
                                     <div class="form-group">
                                         <label for="fileName" class="col-form-label">备注</label>
                                         <textarea type="text" autofocus class="form-control" id="markEdit" style="word-break:break-all; word-wrap:break-all;"></textarea>
@@ -162,8 +155,8 @@
                         <thead>
                             <tr>
                                 <th data-field="state" data-checkbox="true"></th>
-                                <th data-field="type">建筑类别</th>
-                                <th data-field="index">建筑序号</th>
+                                <th data-field="index">房间编号</th>
+                                <th data-field="type" >类别</th>                  
                                 <th data-field="mark" data-switchable="false">备注</th>
                                 <th data-field="button" data-events="operateEvents" data-formatter="addEvent">操作</th>
                             </tr>
@@ -179,5 +172,6 @@
 </body>
 <script src="../js/vue.js"></script>
 <script src="./js/navbar.js"></script>
-<script src="./js/architecture.js"></script>
+<script src="./js/room.js"></script>
+
 </html>
