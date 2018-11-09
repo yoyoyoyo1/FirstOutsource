@@ -13,9 +13,17 @@ module.exports = (mainWindow) => {
         });
     })
     ipc.on('getUse', function (e, data) {
-        db.use.find(data, function (e, docs) {
+        db.use.find(data, function (err, docs) {
             e.sender.send("postUse", docs)
         });
+    })
+    ipc.on('deleteUse', function (e, data) {
+        for(let d of data){
+            db.use.remove({_id:d['_id']}, {}, function (err, numRemoved) {
+          });
+
+        }
+       
     })
     ipc.on("exportTable",function(e,data){
 

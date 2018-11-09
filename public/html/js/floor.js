@@ -1,21 +1,30 @@
 var data = [
 ];//表的内容数组
-let index = 0
-function clear_arr_trim(array) {
-    for (var i = 0; i < array.length; i++) {
-        if (array[i] == "" || typeof (array[i]) == "undefined") {
-            array.splice(i, 1);
-            i = i - 1;
-        }
-    }
-    return array;
+const ipc = require('electron').ipcRenderer
+console.log(window.localStorage)
+if(window.localStorage['floor']!=null){
+    window.localStorage.removeItem('floor')
+}
+if(window.localStorage['room']!=null){
+    window.localStorage.removeItem('room')
+}
+let value = window.localStorage.getItem('architecture')
+var architectureId = JSON.parse(value.toString())['_id']
+
+window.onload = function(){
+    reLoad()
 }
 
 function reLoad() {
-    $("#table").bootstrapTable('destroy');
-    $('#table').bootstrapTable({
+    ipc.send('getFloor',{architectureId})
+    ipc.on("postFloor",function (e,docs){
+      data = docs
+      $("#table").bootstrapTable('destroy');
+      $('#table').bootstrapTable({
         data: data
     });
+    })
+    
 }//刷新
 $(function () {
     //删除
@@ -28,21 +37,11 @@ $(function () {
         }
         var truthBeTold = window.confirm("确定要删除该行记录吗?")
         if (truthBeTold) {
+            ipc.send('deleteFloor',rows)
             window.alert("删除成功");
         } else {
             return
         }
-
-        for (let j = 0; j < rows.length; j++) {
-            for (let i = 0; i < data.length; i++) {
-                if (data[i] == rows[j]) {
-                    data[i] = null
-                    delete data[i]
-                }
-            }
-        }
-
-        clear_arr_trim(data)
         reLoad();
     })
     //增加
@@ -55,12 +54,14 @@ $(function () {
            
             index: $("#index").val(),
             mark: $("#mark").val(),
+            architectureId:architectureId
         }
         
         $("#index").val("")
         $("#mark").val("")
-        data.push(d)
-        console.log(data)
+        //data.push(d)
+        //console.log(data)
+        ipc.send('addFloor',d)
         $("#plusProperty").modal('hide')
         reLoad()
     })
@@ -96,16 +97,10 @@ $(function () {
            
             index: $("#indexEdit").val(),
             mark: $("#markEdit").val(),
+            architectureId : rows[0].architectureId,
+            _id:rows[0]._id
         }
-        for (let j = 0; j < rows.length; j++) {
-            for (let i = 0; i < data.length; i++) {
-                if (data[i] == rows[j]) {
-                    data[i] = d
-                    
-                }
-            }
-        }
-      
+        ipc.send('fixFloor',d)
         $("#indexEdit").val("")
         $("#markEdit").val("")
         $("#editProperty").modal('hide')
@@ -129,11 +124,15 @@ function addEvent(value,row,index){
       '<button type="button" class="RoleOfedit btn btn-primary" >进入</button>'
     ].join("")
   }
-  const ipc = require('electron').ipcRenderer
   window.operateEvents = {
     
-    'click .RoleOfedit' : function (){
- 
+    'click .RoleOfedit' : function (e, value, row, index){
+      var v = {
+          _id:row._id,
+          index:row.index,
+          type:row.type,
+      }
+      window.localStorage.setItem('floor',JSON.stringify(v))
       ipc.send('room',{})
 
      

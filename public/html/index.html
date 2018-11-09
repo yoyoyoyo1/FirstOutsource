@@ -52,7 +52,7 @@
                             </ol>
                         </nav>
                         <div class="dropdown col-md-2 col-sm-2">
-                            <select class="form-control">
+                            <select class="form-control" id = "architectureType">
                                 <option>全部建筑</option>
                                 <option>食堂</option>
                                 <option>教学楼</option>
@@ -163,7 +163,7 @@
                             <tr>
                                 <th data-field="state" data-checkbox="true"></th>
                                 <th data-field="type">建筑类别</th>
-                                <th data-field="index">建筑序号</th>
+                                <th data-field="index">建筑编号</th>
                                 <th data-field="mark" data-switchable="false">备注</th>
                                 <th data-field="button" data-events="operateEvents" data-formatter="addEvent">操作</th>
                             </tr>
@@ -172,6 +172,11 @@
                 </div>
 
 
+                <nav>
+                    <ul class="pager" id="page">
+                     
+                    </ul>
+                  </nav>
             </div>
         </div>
     </div>

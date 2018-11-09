@@ -1,30 +1,74 @@
-
 const ipc = require('electron').ipcRenderer
+
 var data = [
 ];//表的内容数组
-console.log(window.location.href)
-window.onload = function(){
-   ipc.send("")
+var start = 0
+var size = 5
+var length = 0
+var page = 1
+var type = ""
+window.onload = function () {
+    reLoad()
 }
-window.sessionStorage.where = {}
-function clear_arr_trim(array) {
-    for (var i = 0; i < array.length; i++) {
-        if (array[i] == "" || typeof (array[i]) == "undefined") {
-            array.splice(i, 1);
-            i = i - 1;
-        }
-    }
-    return array;
-}
+window.localStorage.clear()
+console.log(window.sessionStorage)
+function reLoad() {//
+    ipc.send("getArchitecture", {start,size,type})
+    ipc.on("postArchitecture", function (e, docs) {
+        data = docs
+        $("#table").bootstrapTable('destroy');
+        $('#table').bootstrapTable({
+            data: data
+        });
 
-function reLoad() {
-    
-    $("#table").bootstrapTable('destroy');
-    $('#table').bootstrapTable({
-        data: data
-    });
+    })
+    ipc.on("countArchitecture",function (e,count){
+        length = count
+        console.log(length)
+        var a = ""
+        if(page==1){
+         a+="<li id='previous' class = 'disabled'><a>上一页</a></li>"
+        }else{
+         a+="<li id='previous'><a>上一页</a></li>"
+        }
+        console.log(length/size)
+        if(length%size==0){
+          if(page==length/size){
+              a+="<li id='next' class = 'disabled'><a>下一页</a></li>"
+          }else{
+             a+="<li id='next'><a>下一页</a></li>"    
+          }
+        }else{
+            if(page==(length-length%size)/size+1){
+                console.log(page)
+                a+="<li id='next' class = 'disabled' ><a>下一页</a></li>"
+            }else{
+               a+="<li id='next'><a>下一页</a></li>"    
+            }
+        }
+        $("#page").append(a)
+        // <li id='previous'>1</li><li id='next'>2</li>
+        // 
+        // $("#previous").val("<a href='#'>上一页</a>") 
+       
+        
+        // console.log($("#previous").val())
+        // $("#next").val("<a href='#'>下一页</a>")
+      
+    })
+
 }//刷新
 $(function () {
+    //选择建筑类型
+    $("#architectureType").click(function (){
+        if($("#architectureType").val()=="全部建筑"){
+            type = ""
+        }else{
+            type = $("#architectureType").val()
+            console.log(type)
+        }
+        reLoad()
+    })
     //删除
     $("#delete").click(function () {
 
@@ -33,23 +77,13 @@ $(function () {
             alert("请先选择要删除的记录!");
             return;
         }
-        var truthBeTold = window.confirm("确定要删除该行记录吗?")
+        var truthBeTold = window.confirm("确定要删除吗?")
         if (truthBeTold) {
+            ipc.send("deleteArchitecture",rows)
             window.alert("删除成功");
         } else {
             return
         }
-
-        for (let j = 0; j < rows.length; j++) {
-            for (let i = 0; i < data.length; i++) {
-                if (data[i] == rows[j]) {
-                    data[i] = null
-                    delete data[i]
-                }
-            }
-        }
-
-        clear_arr_trim(data)
         reLoad();
     })
     //增加
@@ -58,13 +92,13 @@ $(function () {
     })
 
     $("#createSure").click(function () {
-      console.log(22)
+        //console.log(22)
         var d = {
             type: $("#type").val(),
             index: $("#index").val(),
             mark: $("#mark").val(),
-          
         }
+        ipc.send("addArchitecture", d)
         $("#tpye").val("")
         $("#index").val("")
         $("#mark").val("")
@@ -91,7 +125,7 @@ $(function () {
             return
         }
         console.log(rows[0].type)
-       
+
         $("#typeEdit").val((rows[0].type))
         $("#indexEdit").val(rows[0].index)
         $("#markEdit").val(rows[0].mark)
@@ -99,21 +133,15 @@ $(function () {
 
     })
     $("#editSure").click(function () {
-       
+
         var rows = $("#table").bootstrapTable('getSelections');
         var d = {
             type: $("#typeEdit").val(),
             index: $("#indexEdit").val(),
-            mark: $("#markEdit").val()
+            mark: $("#markEdit").val(),
+            _id : rows[0]._id
         }
-        for (let j = 0; j < rows.length; j++) {
-            for (let i = 0; i < data.length; i++) {
-                if (data[i] == rows[j]) {
-                    data[i] = d
-                    
-                }
-            }
-        }
+        ipc.send("fixArchitecture",d)
         $("#typeEdit").val("")
         $("#indexEdit").val("")
         $("#markEdit").val("")
@@ -126,26 +154,28 @@ $(function () {
         $("#markEdit").val("")
         $("#editProperty").modal('hide')
     })
-    
+
     $('#table').bootstrapTable({
         data: data
     });
-    
+
 });
-function addEvent(value,row,index){
-  return [
-    '<button type="button" class="RoleOfedit btn btn-primary" >进入</button>'
-  ].join("")
+function addEvent(value, row, index) {
+    return [
+        '<button type="button" class="RoleOfedit btn btn-primary" >进入</button>'
+    ].join("")
 }
 
 window.operateEvents = {
-  
-  'click .RoleOfedit' : function (e,value,row,index){
-     console.log(row)
-    //window.sessionStorage.where = {}
-    
-    ipc.send('floor',{})
 
-   
-}
+    'click .RoleOfedit': function (e, value, row, index) {
+        console.log(row._id)
+        var v = {
+            _id:row._id,
+            type:row.type,
+            index:row.index
+        }
+        window.localStorage.setItem('architecture',  JSON.stringify(v))
+        ipc.send('floor', {})
+    }
 };

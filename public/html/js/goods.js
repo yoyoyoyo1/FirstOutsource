@@ -1,21 +1,24 @@
 var data = [
 ];//表的内容数组
-let index = 0
-function clear_arr_trim(array) {
-    for (var i = 0; i < array.length; i++) {
-        if (array[i] == "" || typeof (array[i]) == "undefined") {
-            array.splice(i, 1);
-            i = i - 1;
-        }
-    }
-    return array;
+const ipc = require('electron').ipcRenderer
+console.log(window.localStorage)
+let value = window.localStorage.getItem('room')
+var roomId = JSON.parse(value.toString())['_id']
+
+window.onload = function () {
+    reLoad()
 }
 
 function reLoad() {
-    $("#table").bootstrapTable('destroy');
-    $('#table').bootstrapTable({
-        data: data
-    });
+    ipc.send('getUse', { roomId })
+    ipc.on("postUse", function (e, docs) {
+        data = docs
+        $("#table").bootstrapTable('destroy');
+        $('#table').bootstrapTable({
+            data: data
+        });
+    })
+
 }//刷新
 $(function () {
     //删除
@@ -28,21 +31,13 @@ $(function () {
         }
         var truthBeTold = window.confirm("确定要删除该行记录吗?")
         if (truthBeTold) {
+            ipc.send('deleteUse',rows)
             window.alert("删除成功");
         } else {
             return
         }
 
-        for (let j = 0; j < rows.length; j++) {
-            for (let i = 0; i < data.length; i++) {
-                if (data[i] == rows[j]) {
-                    data[i] = null
-                    delete data[i]
-                }
-            }
-        }
-
-        clear_arr_trim(data)
+       
         reLoad();
     })
     //增加
@@ -63,9 +58,9 @@ $(function () {
             deleteTime: $("#deleteTime").val(),
             admin: $("#admin").val(),
             mark: $("#mark").val(),
-
+            roomId:roomId
         }
-
+        ipc.send('addUse',d)
         $("#index").val("")
         $("#name").val("")
         $("#num").val("")
@@ -74,8 +69,6 @@ $(function () {
         $("#deleteTime").val("")
         $("#admin").val("")
         $("#mark").val("")
-        data.push(d)
-        console.log(data)
         $("#plusProperty").modal('hide')
         reLoad()
     })
@@ -129,16 +122,10 @@ $(function () {
             deleteTime: $("#deleteTimeEdit").val(),
             admin: $("#adminEdit").val(),
             mark: $("#markEdit").val(),
+            _id:rows[0]._id,
+            roomId:roomId
         }
-        for (let j = 0; j < rows.length; j++) {
-            for (let i = 0; i < data.length; i++) {
-                if (data[i] == rows[j]) {
-                    data[i] = d
-
-                }
-            }
-        }
-
+        ipc.send('fixUse',d)
         $("#indexEdit").val("")
         $("#nameEdit").val("")
         $("#numEdit").val("")
@@ -166,8 +153,4 @@ $(function () {
     $('#table').bootstrapTable({
         data: data
     });
-    const ipc = require('electron').ipcRenderer
-
-
-
 });
