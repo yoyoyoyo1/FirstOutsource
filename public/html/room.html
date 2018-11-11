@@ -12,7 +12,12 @@
     <title>测试</title>
 </head>
 <style>
-</style>
+        .tt.table>tbody>tr>td{
+            overflow: hidden;
+            text-overflow:ellipsis;
+            white-space: nowrap;
+        }
+    </style>
 
 <body>
     <div id="navbar">
@@ -151,7 +156,7 @@
                             <span>删除</span>
                         </button>
                     </div>
-                    <table id="table" style="table-layout: fixed">
+                    <table id="table" class="tt" style="table-layout: fixed">
                         <thead>
                             <tr>
                                 <th data-field="state" data-checkbox="true"></th>

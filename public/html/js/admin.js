@@ -1,4 +1,5 @@
 $(function () {
+    
     $('form').bootstrapValidator({
         message: 'This value is not valid',
         feedbackIcons: {

@@ -6,6 +6,7 @@ var start = 0
 var size = 5
 var length = 0
 var page = 1
+var sum = 0
 var type = ""
 window.onload = function () {
     reLoad()
@@ -23,42 +24,55 @@ function reLoad() {//
 
     })
     ipc.on("countArchitecture",function (e,count){
+        
         length = count
-        console.log(length)
         var a = ""
         if(page==1){
-         a+="<li id='previous' class = 'disabled'><a>上一页</a></li>"
+         $("#previous").attr("class","disabled")
+         
         }else{
-         a+="<li id='previous'><a>上一页</a></li>"
+            $("#previous").attr("class","")
         }
-        console.log(length/size)
         if(length%size==0){
+            sum = length/size
           if(page==length/size){
-              a+="<li id='next' class = 'disabled'><a>下一页</a></li>"
+           $("#next").attr("class","disabled")
           }else{
-             a+="<li id='next'><a>下一页</a></li>"    
+            $("#next").attr("class","")    
           }
         }else{
+            sum = length/size
             if(page==(length-length%size)/size+1){
                 console.log(page)
-                a+="<li id='next' class = 'disabled' ><a>下一页</a></li>"
+           $("#next").attr("class","disabled")
+          
             }else{
-               a+="<li id='next'><a>下一页</a></li>"    
+                $("#next").attr("class","")     
             }
         }
-        $("#page").append(a)
-        // <li id='previous'>1</li><li id='next'>2</li>
+        $("#page").children().filter('button').remove()
         // 
-        // $("#previous").val("<a href='#'>上一页</a>") 
-       
         
-        // console.log($("#previous").val())
-        // $("#next").val("<a href='#'>下一页</a>")
-      
+        a = "<button type='button' class='btn btn-default' >当前第"+page+"/"+sum+"页</button>"
+        $("#page").apped(a)
     })
 
 }//刷新
 $(function () {
+    
+    //前一页
+    $("#previous").click(function (){
+        start-=size
+        page--
+        console.log("page:",page)
+        reLoad()
+    })
+    //后一页
+    $("#next").click(function (){
+        start+=size
+        page++
+        reLoad()
+    })
     //选择建筑类型
     $("#architectureType").click(function (){
         if($("#architectureType").val()=="全部建筑"){

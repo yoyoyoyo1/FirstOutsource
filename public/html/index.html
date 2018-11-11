@@ -10,9 +10,16 @@
     <script src="../js/bootstrap_table.js"></script>
     <script src="../js/bootstrap.select.js"></script>
     <title>测试</title>
+    <style>
+            .tt.table>tbody>tr>td{
+                overflow: hidden;
+                text-overflow:ellipsis;
+                white-space: nowrap;
+            }
+        </style>
+
 </head>
-<style>
-</style>
+
 
 <body>
     <template id="architecture_temp">
@@ -158,7 +165,7 @@
                             <span>删除</span>
                         </button>
                     </div>
-                    <table id="table" style="table-layout: fixed">
+                    <table id="table" class="tt" style="table-layout: fixed">
                         <thead>
                             <tr>
                                 <th data-field="state" data-checkbox="true"></th>
@@ -173,8 +180,11 @@
 
 
                 <nav>
-                    <ul class="pager" id="page">
-                     
+                    <ul class="pager">
+                            <li  id="page"></li>
+                            <!-- <li>跳至<input type="text" class="g-input">页<input type="button" class= value="确定"></input></li> -->
+                            <li id='previous' value="2222" ><a>前一页</a></li>
+                            <li id='next'><a>后一页</a></li>
                     </ul>
                   </nav>
             </div>

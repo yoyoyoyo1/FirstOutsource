@@ -35,4 +35,27 @@ module.exports = (mainWindow) => {
         console.log(1)
         mainWindow.loadFile('public/html/goods.html')
     })
+    ipc.on('editLogin',function(e,editData){
+        let d = {}
+        fs.readFile(path.resolve(__dirname, '../public/json/login.json'), "utf8", function (err, data) {
+            data = JSON.parse(data)
+            d=data
+            if (editData.olDname != data.name) {
+                e.sender.send("editError", "用户名不存在")
+                return
+            }
+            if (editData.olDpassword != data.password) {
+                e.sender.send("editError", "密码错误")
+                return
+            }
+            d.name = editData.neWname
+            d.password = editData.neWpassword
+            fs.writeFile('../public/json/login.json',d,function(err){
+                if(err)
+                return
+                e.sender.send("edit","修改成功")
+              })     
+        })
+       
+    })
 }
