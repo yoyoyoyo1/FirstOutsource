@@ -37,6 +37,7 @@ module.exports = (mainWindow) => {
     })
     ipc.on('editLogin',function(e,editData){
         let d = {}
+        console.log(editData)
         fs.readFile(path.resolve(__dirname, '../public/json/login.json'), "utf8", function (err, data) {
             data = JSON.parse(data)
             d=data
@@ -50,12 +51,15 @@ module.exports = (mainWindow) => {
             }
             d.name = editData.neWname
             d.password = editData.neWpassword
-            fs.writeFile('../public/json/login.json',d,function(err){
+            console.log(d)
+            fs.writeFile(path.resolve(__dirname, '../public/json/login.json'),JSON.stringify(d),function(err){
+                console.log(err)
                 if(err)
                 return
                 e.sender.send("edit","修改成功")
               })     
         })
+        
        
     })
 }
