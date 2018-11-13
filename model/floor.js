@@ -17,6 +17,7 @@ module.exports = (mainWindow) => {
             e.sender.send("postFloor", docs)
         });
     })
+    
     ipc.on('deleteFloor', function (e, data) {
         for (let d of data) {
             db.floor.remove({ _id: d['_id'] }, {}, function (err, numRemoved) {

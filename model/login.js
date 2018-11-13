@@ -51,6 +51,11 @@ module.exports = (mainWindow) => {
             }
             d.name = editData.neWname
             d.password = editData.neWpassword
+            if(editData.neWname==''||editData.neWpassword=='')
+            {
+                e.sender.send("editError", "有空值")
+                return
+            }
             console.log(d)
             fs.writeFile(path.resolve(__dirname, '../public/json/login.json'),JSON.stringify(d),function(err){
                 console.log(err)

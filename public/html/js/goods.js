@@ -4,8 +4,15 @@ const ipc = require('electron').ipcRenderer
 console.log(window.localStorage)
 let value = window.localStorage.getItem('room')
 var roomId = JSON.parse(value.toString())['_id']
+let architecture = window.localStorage.getItem('architecture')
+let floor = window.localStorage.getItem('floor')
+
+let where = JSON.parse(architecture).type +" "+JSON.parse(architecture).index+"  "
+            +JSON.parse(floor).index+"层  "
+            +JSON.parse(value).type+" "+JSON.parse(value).index
 
 window.onload = function () {
+    $("#where").append(where)
     reLoad()
 }
 

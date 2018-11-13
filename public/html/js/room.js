@@ -7,24 +7,63 @@ if (window.localStorage['room'] != null) {
     window.localStorage.removeItem('room')
 }
 let value = window.localStorage.getItem('floor')
+let valueArchitecture = window.localStorage.getItem('architecture')
 var floorId = JSON.parse(value.toString())['_id']
+var architectureId = JSON.parse(valueArchitecture.toString())['_id']
+
+let where = JSON.parse(valueArchitecture).type +" "+JSON.parse(valueArchitecture).index+" "
+            +JSON.parse(value).index+"层"
 
 window.onload = function () {
+    $("#where").append(where)
     reLoad()
 }
 
 function reLoad() {
+    data = []
+    ipc.send('getFloor',{architectureId})
+    ipc.on("postFloor",function (e,docs){
+      $("#floors option").remove()  
+      console.log(docs) 
+      let v = JSON.parse(value)
+      for(let floor of docs){
+         let f = JSON.stringify(floor)
+          console.log(floor['_id']==v['_id'])
+        if(floor['_id']==v['_id']){
+            $("#floors").append("<option selected='true' value='"+f+"'>"+floor.index+"</option>");
+        }else{
+            $("#floors").append("<option value='"+f+"'>"+floor.index+"</option>");
+        }
+      }
+      
+    })
     ipc.send('getRoom', { floorId })
     ipc.on("postRoom", function (e, docs) {
         data = docs
+      
         $("#table").bootstrapTable('destroy');
         $('#table').bootstrapTable({
+            
             data: data
         });
     })
+    
+   
 
 }//刷新
 $(function () {
+    //选择其他楼层
+    $("#floors").click(function (){
+        console.log($("#floors").val())
+        let v1 = JSON.parse($("#floors").val())
+        let v2 = JSON.parse(value)
+        if(v1['_id']!=v2['_id']){
+            v2._id  = v1._id
+            v2.index = v1.index
+            window.localStorage.setItem('floor',JSON.stringify(v2))
+            ipc.send('room', {})
+        }
+    })
     //删除
     $("#delete").click(function () {
 

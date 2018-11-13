@@ -41,7 +41,7 @@ function reLoad() {//
             $("#next").attr("class","")    
           }
         }else{
-            sum = length/size
+            sum = (length-length%size)/size+1
             if(page==(length-length%size)/size+1){
                 console.log(page)
            $("#next").attr("class","disabled")
@@ -51,10 +51,9 @@ function reLoad() {//
             }
         }
         $("#page").children().filter('button').remove()
-        // 
         
         a = "<button type='button' class='btn btn-default' >当前第"+page+"/"+sum+"页</button>"
-        $("#page").apped(a)
+        $("#page").append(a)
     })
 
 }//刷新
