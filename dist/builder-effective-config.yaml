@@ -10,4 +10,4 @@ dmg:
     'y': 100
     width: 500
     height: 300
-electronVersion: 3.0.6
+electronVersion: 3.0.9

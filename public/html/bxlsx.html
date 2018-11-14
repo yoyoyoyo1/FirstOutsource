@@ -1,19 +1,19 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
-    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script>
+        let XLSX = require('xlsx')
+    </script>
+
 </head>
 
 <body>
     <button onclick="downloadExl()">导出</button>
-    <script>
-        let XLSX = require('xlsx')
-    </script>
-    <!--调用FileSaver saveAs函数可以实现文件下载-->
-    <!--<script src="http://sheetjs.com/demos/Blob.js"></script>
-    <script src="http://sheetjs.com/demos/FileSaver.js"></script>-->
     <script>
         const ipc = require('electron').ipcRenderer
         //如果使用 FileSaver.js 就不要同时使用以下函数
@@ -41,15 +41,15 @@
         // const wopts = { bookType: 'xlsb', bookSST: false, type: 'binary' };//xlsb格式
         // const wopts = { bookType: 'fods', bookSST: false, type: 'binary' };//fods格式
         // const wopts = { bookType: 'biff2', bookSST: false, type: 'binary' };//xls格式
-        ipc.on("usrTable", function (e, data) {
+        ipc.on("aTable", function (e, data) {
             console.log(data)
             const wb = {
                 SheetNames: ['Sheet1'],
                 Sheets: {},
                 Props: {}
             };
-            data = XLSX.utils.aoa_to_sheet(data);
-            wb.Sheets['Sheet1'] = data //通过json_to_sheet转成单页(Sheet)数据
+
+            wb.Sheets['Sheet1'] = XLSX.utils.aoa_to_sheet(data); //通过json_to_sheet转成单页(Sheet)数据
 
             saveAs(new Blob([s2ab(XLSX.write(wb, wopts))], {
                 type: "application/octet-stream"
@@ -58,7 +58,7 @@
 
         function downloadExl(data, type) {
 
-            ipc.send('exportTable', {})
+            ipc.send('exportATable', {})
 
         }
 
