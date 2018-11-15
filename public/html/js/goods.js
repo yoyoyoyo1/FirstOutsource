@@ -25,7 +25,6 @@ function reLoad() {
             data: data
         });
     })
-
 }//刷新
 $(function () {
     //删除

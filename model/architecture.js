@@ -43,9 +43,9 @@ module.exports = (mainWindow) => {
         })
     }
 
-    // ipc.on('exportATable', async (e, data) => {
+    ipc.on('exportATable', async (e, data) => {
 
-    // })
+    })
     ipc.on('deleteArchitecture', function (e, data) {
         for (let d of data) {
             db.architecture.remove({

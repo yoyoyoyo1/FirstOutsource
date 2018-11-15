@@ -1,5 +1,5 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Users\dingding\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add electron-builder --save-dev
+  C:\Program Files\nodejs\node.exe C:\Users\dingding\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js
 
 PATH: 
   C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\ProgramData\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\StarCraft II;C:\Program Files (x86)\Tencent\QQ\Bin;C:\Program Files\nodejs;"C:\Program Files (x86)\Java\jdk1.8.0_131\bin;";C:\PostgreSQL\9.5\bin;C:\Program Files (x86)\CineForm\Tools;C:\Program Files\Git\cmd;C:\Program Files\Redis;C:\Program Files\MySQL\MySQL Utilities 1.6\;C:\Program Files (x86)\Bitvise SSH Client;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Microsoft VS Code\bin;C:\Program Files\nodejs\;C:\Users\dingding\AppData\Local\Programs\Python\Python37-32\Scripts\;C:\Users\dingding\AppData\Local\Programs\Python\Python37-32\;C:\Users\dingding\AppData\Local\Microsoft\WindowsApps;;C:\Users\dingding\AppData\Local\Programs\Fiddler;C:\Program Files\Bandizip\;C:\Program Files\Microsoft VS Code\bin;C:\Users\dingding\AppData\Local\Microsoft\WindowsApps;C:\Users\dingding\AppData\Roaming\npm
@@ -14,7 +14,7 @@ Platform:
   win32 x64
 
 Trace: 
-  Error: ENOENT: no such file or directory, copyfile 'C:\Users\dingding\AppData\Local\Yarn\Cache\v3\npm-fast-deep-equal-1.1.0-c053477817c86b51daa853c81e059b733d023614\node_modules\fast-deep-equal\index.d.ts' -> 'C:\Users\dingding\Desktop\新建文件夹 (3)\electron-quick-start\node_modules\har-validator\node_modules\fast-deep-equal\index.d.ts'
+  Error: ENOENT: no such file or directory, copyfile 'C:\Users\dingding\AppData\Local\Yarn\Cache\v3\npm-ms-2.1.1-30a5864eb3ebb0a66f2ebe6d727af06a09d86e0a\node_modules\ms\package.json' -> 'C:\Users\dingding\Desktop\FirstOutsource\node_modules\electron-download\node_modules\ms\package.json'
 
 npm manifest: 
   {
@@ -23,7 +23,22 @@ npm manifest:
     "description": "A minimal Electron application",
     "main": "main.js",
     "scripts": {
-      "start": "electron ."
+      "start": "electron .",
+      "pack": "electron-builder --dir",
+      "dist": "electron-builder"
+    },
+    "build": {
+      "appId": "com.leon.HelloWorld02",
+      "copyright": "LEON",
+      "productName": "HelloWorld02",
+      "dmg": {
+        "window": {
+          "x": 100,
+          "y": 100,
+          "width": 500,
+          "height": 300
+        }
+      }
     },
     "repository": "https://github.com/electron/electron-quick-start",
     "keywords": [
@@ -37,6 +52,11 @@ npm manifest:
     "license": "CC0-1.0",
     "devDependencies": {
       "electron": "^3.0.4"
+    },
+    "dependencies": {
+      "bluebird": "^3.5.3",
+      "nedb": "^1.8.0",
+      "xlsx": "^0.14.0"
     }
   }
 
