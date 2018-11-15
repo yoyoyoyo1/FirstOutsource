@@ -277,7 +277,7 @@
         table.push([])
         table.push(tableHead)
         for (d of data) {
-            total += d.total
+            total += isNaN(d.total)?0:d.total;
             let json = []
             for (let index of tableHead) {
                 json.push(d[map[index]])
@@ -297,8 +297,8 @@
             Sheets: {},
             Props: {}
         };
-        data = XLSX.utils.aoa_to_sheet(fix(data));
-        wb.Sheets['Sheet1'] = data //通过json_to_sheet转成单页(Sheet)数据
+        dataT = XLSX.utils.aoa_to_sheet(fix(data));
+        wb.Sheets['Sheet1'] = dataT //通过json_to_sheet转成单页(Sheet)数据
 
         saveAs(new Blob([s2ab(XLSX.write(wb, wopts))], {
             type: "application/octet-stream"

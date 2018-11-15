@@ -85,7 +85,7 @@
                             <div class="form-group">
                                 <div class="input-group">
                                     <button type="button" class="btn btn-primary" id="serach">查询</button>
-                                    <button onclick="downloadExl()" id="export" class="btn btn-info">
+                                    <button type="button" onclick="downloadExl()" id="export" class="btn btn-info">
                                         <i class="glyphicon glyphicon-download-alt" id="put"></i>
                                         <span>导出</span>
                                     </button>
@@ -146,9 +146,10 @@
         type: 'binary'
     }; //这里的数据是用来定义导出的格式类型
     function fix(data) {
+        let table = []
         var tableHead = ["建筑物","楼层","房间","物品编号", "名称", "数量", "单价", "金额", "添置时间", "注销时间", "保管人", "备注"]
         var map = {
-            "编号": "index",
+            "物品编号": "index",
             "名称": "name",
             "数量": "num",
             "单价": "price",
@@ -160,30 +161,36 @@
         }
         var total = 0
         table.push(tableHead)
+        console.log(data)
         for (d of data) {
-            total += d.total
+            
+            total += isNaN(d.total)?0:d.total;
             let json = []
             for (let index of tableHead) {
                 json.push(d[map[index]])
             }
             table.push(json)
         }
-        table.push(['', '', '', '', '', '', '', "累计:", total + "元"])
+        table.push(['','','','', '', '', '', '', '', '', "累计:", total + "元"])
         return table
     }
 
     function downloadExl() {
+        if(data.length==0){
+            alert("没有数据")
+            return
+        }
         const wb = {
             SheetNames: ['Sheet1'],
             Sheets: {},
             Props: {}
         };
-        data = XLSX.utils.aoa_to_sheet(fix(data));
-        wb.Sheets['Sheet1'] = data //通过json_to_sheet转成单页(Sheet)数据
+        dataT = XLSX.utils.aoa_to_sheet(fix(data));
+        wb.Sheets['Sheet1'] = dataT //通过json_to_sheet转成单页(Sheet)数据
 
         saveAs(new Blob([s2ab(XLSX.write(wb, wopts))], {
             type: "application/octet-stream"
-        }), `${architecture.type}${architecture.index}楼-${floor.index}层-${room.index}房间物品` + '.' + (wopts.bookType ==
+        }), `${$("#serachValue").val()}表` + '.' + (wopts.bookType ==
             "biff2" ? "xls" : wopts.bookType));
         ipc.send('exportTable', {})
 

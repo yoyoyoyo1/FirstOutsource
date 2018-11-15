@@ -11,7 +11,7 @@
     <script src="../js/bootstrap.select.js"></script>
     <title>测试</title>
     <style>
-            .tt.table>tbody>tr>td{
+        .tt.table>tbody>tr>td{
                 overflow: hidden;
                 text-overflow:ellipsis;
                 white-space: nowrap;
@@ -59,7 +59,7 @@
                             </ol>
                         </nav>
                         <div class="dropdown col-md-2 col-sm-2">
-                            <select class="form-control" id = "architectureType">
+                            <select class="form-control" id="architectureType">
                                 <option>全部建筑</option>
                                 <option>食堂</option>
                                 <option>教学楼</option>
@@ -165,9 +165,9 @@
                             <span>删除</span>
                         </button>
                         <button onclick="downloadExl()" id="export" class="btn btn-info">
-                                <i class="glyphicon glyphicon-download-alt" id="put"></i>
-                                <span>导出</span>
-                            </button>    
+                            <i class="glyphicon glyphicon-download-alt" id="put"></i>
+                            <span>导出</span>
+                        </button>
                     </div>
                     <table id="table" class="tt" style="table-layout: fixed">
                         <thead>
@@ -185,14 +185,14 @@
 
                 <nav>
                     <ul class="pager">
-                            <li  id="page"></li>
-                            <!-- <li>跳至<input type="text" class="g-input">页<input type="button" class= value="确定"></input></li> -->
-                            <li><button><input id='in'></button></li>
-                            <li><button type='button' class='btn btn-default' id='jump'>跳转</button></li>
-                            <li id='previous' value="2222" ><a>前一页</a></li>
-                            <li id='next'><a>后一页</a></li>
+                        <li id="page"></li>
+                        <!-- <li>跳至<input type="text" class="g-input">页<input type="button" class= value="确定"></input></li> -->
+                        <li><button><input id='in'></button></li>
+                        <li><button type='button' class='btn btn-default' id='jump'>跳转</button></li>
+                        <li id='previous' value="2222"><a>前一页</a></li>
+                        <li id='next'><a>后一页</a></li>
                     </ul>
-                  </nav>
+                </nav>
             </div>
         </div>
     </div>
@@ -201,4 +201,65 @@
 <script src="../js/vue.js"></script>
 <script src="./js/navbar.js"></script>
 <script src="./js/architecture.js"></script>
+<script>
+    let XLSX = require('xlsx')
+    //如果使用 FileSaver.js 就不要同时使用以下函数
+    function saveAs(obj, fileName) { //当然可以自定义简单的下载文件实现方式 
+
+        var tmpa = document.createElement("a");
+        tmpa.download = fileName || "下载";
+        tmpa.href = URL.createObjectURL(obj); //绑定a标签
+        tmpa.click(); //模拟点击实现下载
+        setTimeout(function () { //延时释放
+            URL.revokeObjectURL(obj); //用URL.revokeObjectURL()来释放这个object URL
+            alert("导出成功")
+        }, 100);
+
+    }
+    const wopts = {
+        bookType: 'xlsx',
+        bookSST: false,
+        type: 'binary'
+    }; //这里的数据是用来定义导出的格式类型
+    // const wopts = { bookType: 'csv', bookSST: false, type: 'binary' };//ods格式
+    // const wopts = { bookType: 'ods', bookSST: false, type: 'binary' };//ods格式
+    // const wopts = { bookType: 'xlsb', bookSST: false, type: 'binary' };//xlsb格式
+    // const wopts = { bookType: 'fods', bookSST: false, type: 'binary' };//fods格式
+    // const wopts = { bookType: 'biff2', bookSST: false, type: 'binary' };//xls格式
+    ipc.on("aTable", function (e, data) {
+        console.info(data)
+        const wb = {
+            SheetNames: [],
+            Sheets: {},
+            Props: {}
+        };
+        for(key in data){
+            data[key] =  XLSX.utils.aoa_to_sheet(data[key]);
+            wb.SheetNames.push(key)
+            wb.Sheets[key] = data[key]
+        }
+
+        saveAs(new Blob([s2ab(XLSX.write(wb, wopts))], {
+            type: "application/octet-stream"
+        }), "建筑总表" + '.' + (wopts.bookType == "biff2" ? "xls" : wopts.bookType));
+    })
+
+    function downloadExl(data, type) {
+        ipc.send('exportATable', {})
+    }
+
+    function s2ab(s) {
+        if (typeof ArrayBuffer !== 'undefined') {
+            var buf = new ArrayBuffer(s.length);
+            var view = new Uint8Array(buf);
+            for (var i = 0; i != s.length; ++i) view[i] = s.charCodeAt(i) & 0xFF;
+            return buf;
+        } else {
+            var buf = new Array(s.length);
+            for (var i = 0; i != s.length; ++i) buf[i] = s.charCodeAt(i) & 0xFF;
+            return buf;
+        }
+    }
+</script>
+
 </html>

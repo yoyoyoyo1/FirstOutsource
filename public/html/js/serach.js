@@ -1,7 +1,10 @@
 var data = [
 ];//表的内容数组
 const ipc = require('electron').ipcRenderer
-
+// serachx = {
+//     "index":"物品编号",
+//     "name":"物品名称"
+// }
 $(function () {
     $("#serach").click(function () {
         
