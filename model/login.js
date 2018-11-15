@@ -20,19 +20,15 @@ module.exports = (mainWindow) => {
         })
     })
     ipc.on('floor',function(e){
-        console.log(1)
         mainWindow.loadFile('public/html/floor.html')
     })
     ipc.on('architecture',function(e){
-        console.log(1)
         mainWindow.loadFile('public/html/index.html')
     })
     ipc.on('room',function(e){
-        console.log(1)
         mainWindow.loadFile('public/html/room.html')
     })
     ipc.on('goods',function(e){
-        console.log(1)
         mainWindow.loadFile('public/html/goods.html')
     })
     ipc.on('editLogin',function(e,editData){

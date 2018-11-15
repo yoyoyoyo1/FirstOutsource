@@ -12,7 +12,7 @@
     <title>测试</title>
 </head>
 <style>
-        .tt.table>tbody>tr>td{
+    .tt.table>tbody>tr>td{
             overflow: hidden;
             text-overflow:ellipsis;
             white-space: nowrap;
@@ -59,11 +59,17 @@
                                 <li class="active">房间</li>
                             </ol>
                         </nav>
+                        <div class="col-md-1 col-sm-1">
+                                <h5>选择楼层:</h5>
+
+                        </div>
                         <div class="dropdown col-md-2 col-sm-2">
+                            
                             <select class="form-control" id="floors">
                             </select>
                         </div>
                         <div style="float:right">
+
                             <a href="#" class="tooltip-test" data-toggle="tooltip" title="默认的 Tooltip" id="where"></a>&nbsp;&nbsp;&nbsp;
                         </div>
 
@@ -126,7 +132,7 @@
                                         <label for="fileName" class="col-form-label">房间类别</label>
                                         <input type="text" autofocus class="form-control" id="typeEdit">
                                     </div>
-                                   
+
                                     <div class="form-group">
                                         <label for="fileName" class="col-form-label">备注</label>
                                         <textarea type="text" autofocus class="form-control" id="markEdit" style="word-break:break-all; word-wrap:break-all;"></textarea>
@@ -160,7 +166,7 @@
                             <tr>
                                 <th data-field="state" data-checkbox="true"></th>
                                 <th data-field="index">房间编号</th>
-                                <th data-field="type" >类别</th>                  
+                                <th data-field="type">类别</th>
                                 <th data-field="mark" data-switchable="false">备注</th>
                                 <th data-field="button" data-events="operateEvents" data-formatter="addEvent">操作</th>
                             </tr>
