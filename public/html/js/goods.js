@@ -52,7 +52,7 @@ $(function () {
     })
 
     $("#createSure").click(function () {
-        let sum = parseInt($("#price").val()) * parseInt($("#num").val())
+        let sum = parseFloat($("#price").val()) * parseInt($("#num").val())
         var d = {
 
             index: $("#index").val(),

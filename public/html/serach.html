@@ -13,7 +13,7 @@
     <title>测试</title>
 </head>
 <style>
-          .tt.table>tbody>tr>td{
+    .tt.table>tbody>tr>td{
             overflow: hidden;
             text-overflow:ellipsis;
             white-space: nowrap;
@@ -55,7 +55,7 @@
                                 <div class="input-group">
                                     <span class="input-group-addon">内容类型</span>
                                     <select class="form-control" id="serachType">
-                                        <option value="name" >物品名称</option>
+                                        <option value="name">物品名称</option>
                                         <option value="index">物品编号</option>
                                     </select>
                                 </div>
@@ -79,42 +79,42 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="row col-md-5 col-sm-5">
                             <!--后缀-->
                             <div class="form-group">
-                                <div class="input-group">                      
+                                <div class="input-group">
                                     <button type="button" class="btn btn-primary" id="serach">查询</button>
                                     <button onclick="downloadExl()" id="export" class="btn btn-info">
-                                            <i class="glyphicon glyphicon-download-alt" id="put"></i>
-                                            <span>导出</span>
-                                        </button> 
+                                        <i class="glyphicon glyphicon-download-alt" id="put"></i>
+                                        <span>导出</span>
+                                    </button>
                                 </div>
                             </div>
                             <div>
-                                     
+
                             </div>
                         </div>
                     </div>
                 </form>
                 <div>
-                        <table id="table" class="tt" style="table-layout: fixed">
-                            <thead>
-                                <tr>
-                                    <!-- <th data-field="state" data-checkbox="true"></th> -->
-                                    <th data-field="index">编号</th>
-                                    <th data-field="name">名称</th>
-                                    <th data-field="num">数量</th>
-                                    <th data-field="price">单价</th>
-                                    <th data-field="total">金额</th>
-                                    <th data-field="createTime">添置时间</th>
-                                    <th data-field="deleteTime">注销时间</th>
-                                    <th data-field="admin">保管人</th>
-                                    <th data-field="mark" data-switchable="false">备注</th>
-                                </tr>
-                            </thead>
-                        </table>
-                 </div>
+                    <table id="table" class="tt" style="table-layout: fixed">
+                        <thead>
+                            <tr>
+                                <!-- <th data-field="state" data-checkbox="true"></th> -->
+                                <th data-field="index">编号</th>
+                                <th data-field="name">名称</th>
+                                <th data-field="num">数量</th>
+                                <th data-field="price">单价</th>
+                                <th data-field="total">金额</th>
+                                <th data-field="createTime">添置时间</th>
+                                <th data-field="deleteTime">注销时间</th>
+                                <th data-field="admin">保管人</th>
+                                <th data-field="mark" data-switchable="false">备注</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -123,5 +123,84 @@
 <script src="../js/vue.js"></script>
 <script src="./js/navbar.js"></script>
 <script src="./js/serach.js"></script>
+<script>
+    let XLSX = require('xlsx')
+
+    function saveAs(obj, fileName) { //当然可以自定义简单的下载文件实现方式 
+
+        var tmpa = document.createElement("a");
+        tmpa.download = fileName || "下载";
+        tmpa.href = URL.createObjectURL(obj); //绑定a标签
+
+        tmpa.click(); //模拟点击实现下载
+        setTimeout(function () { //延时释放
+            URL.revokeObjectURL(obj); //用URL.revokeObjectURL()来释放这个object URL
+            alert("导出成功")
+        }, 100);
+
+
+    }
+    const wopts = {
+        bookType: 'xlsx',
+        bookSST: false,
+        type: 'binary'
+    }; //这里的数据是用来定义导出的格式类型
+    function fix(data) {
+        var tableHead = ["建筑物","楼层","房间","物品编号", "名称", "数量", "单价", "金额", "添置时间", "注销时间", "保管人", "备注"]
+        var map = {
+            "编号": "index",
+            "名称": "name",
+            "数量": "num",
+            "单价": "price",
+            "金额": "total",
+            "添置时间": "createTime",
+            "注销时间": "deleteTime",
+            "保管人": "admin",
+            "备注": "mark"
+        }
+        var total = 0
+        table.push(tableHead)
+        for (d of data) {
+            total += d.total
+            let json = []
+            for (let index of tableHead) {
+                json.push(d[map[index]])
+            }
+            table.push(json)
+        }
+        table.push(['', '', '', '', '', '', '', "累计:", total + "元"])
+        return table
+    }
+
+    function downloadExl() {
+        const wb = {
+            SheetNames: ['Sheet1'],
+            Sheets: {},
+            Props: {}
+        };
+        data = XLSX.utils.aoa_to_sheet(fix(data));
+        wb.Sheets['Sheet1'] = data //通过json_to_sheet转成单页(Sheet)数据
+
+        saveAs(new Blob([s2ab(XLSX.write(wb, wopts))], {
+            type: "application/octet-stream"
+        }), `${architecture.type}${architecture.index}楼-${floor.index}层-${room.index}房间物品` + '.' + (wopts.bookType ==
+            "biff2" ? "xls" : wopts.bookType));
+        ipc.send('exportTable', {})
+
+    }
+
+    function s2ab(s) {
+        if (typeof ArrayBuffer !== 'undefined') {
+            var buf = new ArrayBuffer(s.length);
+            var view = new Uint8Array(buf);
+            for (var i = 0; i != s.length; ++i) view[i] = s.charCodeAt(i) & 0xFF;
+            return buf;
+        } else {
+            var buf = new Array(s.length);
+            for (var i = 0; i != s.length; ++i) buf[i] = s.charCodeAt(i) & 0xFF;
+            return buf;
+        }
+    }
+</script>
 
 </html>

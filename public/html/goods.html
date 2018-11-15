@@ -253,21 +253,57 @@
         bookSST: false,
         type: 'binary'
     }; //这里的数据是用来定义导出的格式类型
+    function fix(data) {
+        var tableHead = ["编号", "名称", "数量", "单价", "金额", "添置时间", "注销时间", "保管人", "备注"]
+        var architecture = JSON.parse(window.localStorage.getItem("architecture"))
+        var floor = JSON.parse(window.localStorage.getItem("floor"))
+        var room = JSON.parse(window.localStorage.getItem('room'))
+        var map = {
+            "编号": "index",
+            "名称": "name",
+            "数量": "num",
+            "单价": "price",
+            "金额": "total",
+            "添置时间": "createTime",
+            "注销时间": "deleteTime",
+            "保管人": "admin",
+            "备注": "mark"
+        }
+        var table = [
+            ["建筑物", "楼层", "房间"]
+        ]
+        var total = 0
+        table.push([architecture.type + architecture.index, floor.index, room.index])
+        table.push([])
+        table.push(tableHead)
+        for (d of data) {
+            total += d.total
+            let json = []
+            for (let index of tableHead) {
+                json.push(d[map[index]])
+            }
+            table.push(json)
+        }
+        table.push(['', '', '', '', '', '', '', "累计:", total + "元"])
+        return table
+    }
 
     function downloadExl() {
-        console.log(data)
-        console.log()
+        var architecture = JSON.parse(window.localStorage.getItem("architecture"))
+        var floor = JSON.parse(window.localStorage.getItem("floor"))
+        var room = JSON.parse(window.localStorage.getItem('room'))
         const wb = {
             SheetNames: ['Sheet1'],
             Sheets: {},
             Props: {}
         };
-        data = XLSX.utils.aoa_to_sheet(data);
+        data = XLSX.utils.aoa_to_sheet(fix(data));
         wb.Sheets['Sheet1'] = data //通过json_to_sheet转成单页(Sheet)数据
 
         saveAs(new Blob([s2ab(XLSX.write(wb, wopts))], {
             type: "application/octet-stream"
-        }), "这里是下载的文件名2" + '.' + (wopts.bookType == "biff2" ? "xls" : wopts.bookType));
+        }), `${architecture.type}${architecture.index}楼-${floor.index}层-${room.index}房间物品` + '.' + (wopts.bookType ==
+            "biff2" ? "xls" : wopts.bookType));
         ipc.send('exportTable', {})
 
     }
