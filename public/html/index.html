@@ -164,6 +164,10 @@
                             <i class="glyphicon glyphicon-trash"></i>
                             <span>删除</span>
                         </button>
+                        <button onclick="downloadExl()" id="export" class="btn btn-info">
+                                <i class="glyphicon glyphicon-download-alt"></i>
+                                <span>导出</span>
+                            </button>    
                     </div>
                     <table id="table" class="tt" style="table-layout: fixed">
                         <thead>
@@ -183,6 +187,8 @@
                     <ul class="pager">
                             <li  id="page"></li>
                             <!-- <li>跳至<input type="text" class="g-input">页<input type="button" class= value="确定"></input></li> -->
+                            <li><button><input id='in'></button></li>
+                            <li><button type='button' class='btn btn-default' id='jump'>跳转</button></li>
                             <li id='previous' value="2222" ><a>前一页</a></li>
                             <li id='next'><a>后一页</a></li>
                     </ul>

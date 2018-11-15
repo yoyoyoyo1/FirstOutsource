@@ -51,14 +51,38 @@ function reLoad() {//
             }
         }
         $("#page").children().filter('button').remove()
+        $("#page").children().filter('input').remove()
         
         a = "<button type='button' class='btn btn-default' >当前第"+page+"/"+sum+"页</button>"
         $("#page").append(a)
+        
+        
     })
 
 }//刷新
 $(function () {
-    
+    //跳转
+    $("#jump").click(function (){
+        console.log("2222")
+        if($("#in").val()==undefined){
+            alert("请输入正确信息")
+            return
+        }
+        if($("#in").val()<1){
+            $("#in").val("1")
+            start=0
+            page=1
+        }else if($("#in").val()>sum){
+            $("#in").val(sum)
+            start =(sum-1)*size
+            page = sum
+        }else{
+            page = $("#in").val()
+            start = (page-1)*size
+        }
+        console.log(start)
+        reLoad()
+    })
     //前一页
     $("#previous").click(function (){
         start-=size
