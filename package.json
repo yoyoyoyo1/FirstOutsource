@@ -6,12 +6,12 @@
   "scripts": {
     "start": "electron .",
     "pack": "electron-builder --dir",
-    "dist": "electron-builder"
+    "dist": "electron-builder --ia32"
   },
   "build": {
     "appId": "com.leon.HelloWorld02",
     "copyright": "LEON",
-    "productName": "HelloWorld02",
+    "productName": "学校财物管理",
     "dmg": {
       "window": {
         "x": 100,
@@ -35,6 +35,7 @@
     "electron": "^3.0.4"
   },
   "dependencies": {
-    "nedb": "^1.8.0"
+    "nedb": "^1.8.0",
+    "xlsx": "^0.14.1"
   }
 }

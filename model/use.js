@@ -95,19 +95,28 @@ module.exports = (mainWindow) => {
     })
 
     
-    ipc.on('serachUse', function (e, data) {
-        if (data.serachType == 'index') {
-            db.use.find({
-                index: new RegExp(`.*?${data.serachValue}.*?`)
-            }, function (err, docs) {
-                e.sender.send("postSerach", docs)
+    ipc.on('serachUse', async function (e, data) {
+        var serach = {}
+
+        serach[data.serachType] = new RegExp(`.*?${data.serachValue}.*?`)
+
+        let uses = await findP(db.use, serach)
+        for (use of uses) {
+
+            let room = await findP(db.room, {
+                "_id": use.roomId
+            })
+            
+            let floor = await findP(db.floor, {
+                "_id": room[0].floorId
+            })
+            let architecture = await findP(db.architecture, {
+                "_id": floor[0].architectureId
             });
-        } else {
-            db.use.find({
-                name: new RegExp(`.*?${data.serachValue}.*?`)
-            }, function (err, docs) {
-                e.sender.send("postSerach", docs)
-            });
+            use.a = architecture[0].type + architecture[0].index
+            use.f = floor[0].index
+            use.r = room[0].index
         }
+        e.sender.send("postSerach", uses)
     })
 }

@@ -3,11 +3,11 @@ directories:
   buildResources: build
 appId: com.leon.HelloWorld02
 copyright: LEON
-productName: HelloWorld02
+productName: 学校财物管理
 dmg:
   window:
     x: 100
     'y': 100
     width: 500
     height: 300
-electronVersion: 3.0.4
+electronVersion: 3.0.9
